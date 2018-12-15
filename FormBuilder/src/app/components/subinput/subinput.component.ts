@@ -16,6 +16,7 @@ export class SubinputComponent implements OnInit {
   conditionTypes = CONDITIONTYPES;
   inputTypes = INPUTTYPES;
   inputType = new FormControl('', []);
+  condition = new FormControl('', []);
   index = 0;
 
   selfIndex: number;
