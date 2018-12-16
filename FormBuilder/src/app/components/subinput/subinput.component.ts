@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormArray } from '@angular/forms';
 import { CONDITIONTYPES, INPUTTYPES } from '../../consts';
 import { ComponentService } from 'src/app/services/component.service';
+import { ValidationService } from 'src/app/services/validation.service';
 
 @Component({
   selector: 'app-subinput',
@@ -18,15 +19,18 @@ export class SubinputComponent implements OnInit {
   inputType = new FormControl('', []);
   condition = new FormControl('', []);
   index = 0;
+  question = new FormControl('', []);
+  answer = new FormControl('', []);
 
   selfIndex: number;
   parentComponentsReferences;
   parentInputType;
   selfReference: SubinputComponent;
 
-  constructor(private _componentService: ComponentService) {}
+  constructor(private _componentService: ComponentService, private _validationService: ValidationService) {}
 
   ngOnInit() {
+    console.log(this.parentInputType);
     this.setConditionTypes();
    }
 
@@ -44,4 +48,11 @@ setConditionTypes() {
     this.conditionTypes = this.conditionTypes.slice(0, 1);
   }
 }
+
+checkValidation() {
+  return this._validationService.checkValidation(new FormArray(
+    new Array<FormControl>(this.question, this.inputType, this.answer, this.condition)
+  ));
+}
+
 }

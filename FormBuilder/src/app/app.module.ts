@@ -12,7 +12,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
+import {MatRadioModule} from '@angular/material/radio';
+
 import { ComponentService } from './services/component.service';
+import { ValidationService } from './services/validation.service';
 
 @NgModule({
   declarations: [
@@ -29,9 +32,10 @@ import { ComponentService } from './services/component.service';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatRadioModule
   ],
-  providers: [ComponentService],
+  providers: [ComponentService, ValidationService],
   bootstrap: [AppComponent],
   entryComponents: [InputComponent, SubinputComponent]
 })
