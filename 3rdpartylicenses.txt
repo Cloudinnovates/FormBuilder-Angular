@@ -338,6 +338,8 @@ MIT
 
 @angular/material/button
 
+@angular/material/radio
+
 zone.js
 MIT
 The MIT License
