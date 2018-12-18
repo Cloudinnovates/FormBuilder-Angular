@@ -16,6 +16,7 @@ import {MatRadioModule} from '@angular/material/radio';
 
 import { ComponentService } from './services/component.service';
 import { ValidationService } from './services/validation.service';
+import { DataBaseService } from './services/data-base.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { ValidationService } from './services/validation.service';
     MatButtonModule,
     MatRadioModule
   ],
-  providers: [ComponentService, ValidationService],
+  providers: [ComponentService, ValidationService, DataBaseService],
   bootstrap: [AppComponent],
   entryComponents: [InputComponent, SubinputComponent]
 })

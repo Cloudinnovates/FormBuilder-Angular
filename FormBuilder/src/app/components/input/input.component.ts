@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { SubinputComponent } from '../subinput/subinput.component';
 import { FormControl, FormArray } from '@angular/forms';
-import { INPUTTYPES } from '../../consts';
+import { INPUTTYPES, INPUTS } from '../../consts';
 import { ComponentService } from 'src/app/services/component.service';
 import { ValidationService } from 'src/app/services/validation.service';
+import { DataBaseService } from 'src/app/services/data-base.service';
 
 @Component({
   selector: 'app-input',
@@ -14,23 +15,24 @@ export class InputComponent implements OnInit {
 
   @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
 
-    componentsReferences = [];
-    inputTypes: any = INPUTTYPES;
-    inputType = new FormControl('', []);
-    question = new FormControl('', []);
-    index: number = 0;
 
-    selfIndex;
-    parentComponentsReferences;
-    selfReference: InputComponent;
+  private componentsReferences: ViewContainerRef[] = [];
+  private inputType: FormControl = new FormControl('', []);
+  private question: FormControl = new FormControl('', []);
+  private index: number = 0;
+  private inputs: any = INPUTS;
 
-    constructor(private _componentService: ComponentService, private _validationService: ValidationService) {}
+  public selfIndex: number;
+  public parentComponentsReferences: any[] = [];
+  public selfReference: InputComponent;
+  public inputTypes: any = INPUTTYPES;
 
-    ngOnInit() {}
+
+  constructor(private _componentService: ComponentService, private _validationService: ValidationService, private _dataBaseService: DataBaseService) { }
 
   addInput() {
-    this.componentsReferences = this._componentService.addInput(SubinputComponent, this._viewContainerReference, this.componentsReferences, this.index, this.inputType.value);
-    this.index = ++this.index;
+    this.componentsReferences = this._componentService.addInput('SubinputComponent', this._viewContainerReference, this.componentsReferences, this.index, this.inputType.value);
+    ++this.index;
   }
 
   deleteInput() {
@@ -41,6 +43,26 @@ export class InputComponent implements OnInit {
     return this._validationService.checkValidation(new FormArray(
       new Array<FormControl>(this.question, this.inputType)
     ));
+  }
+
+  ngOnInit() {
+    window.onbeforeunload = () => {
+      this.setData();
+    }
+    this.getData();
+  }
+
+  async getData() {
+    const data = await this._dataBaseService.loadData(await this._dataBaseService.openDataBase());
+    console.log(data);
+  }
+
+  async setData() {
+    const inputs = this.inputs = { index: this.selfIndex, test: this.index + 1 };
+    console.log(inputs);
+    if (this.getData())
+      await this._dataBaseService.updateData(await this._dataBaseService.openDataBase(), inputs);
+    await this._dataBaseService.saveData(await this._dataBaseService.openDataBase(), inputs);
   }
 }
 

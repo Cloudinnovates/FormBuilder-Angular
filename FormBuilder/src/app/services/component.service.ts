@@ -7,12 +7,14 @@ export class ComponentService {
 
   constructor(private _componentFactoryResolver: ComponentFactoryResolver) { }
 
-  addInput(component: Type<any>, containerReference: ViewContainerRef, componentsReferences: any[], index: number, inputType?: string): any[] {
-    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(component);
-    const componentRef = containerReference.createComponent(componentFactory);
-    const currentComponent = componentRef.instance;
+  addInput(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], index: number, inputType?: string): any[] {
+const factories = Array.from(this._componentFactoryResolver['_factories'].keys());
+const factoryClass = <Type<any>>factories.find((x: any) => x.name === componentName);
+const factory = this._componentFactoryResolver.resolveComponentFactory(factoryClass);
+const componentReference = containerReference.createComponent(factory);
+const currentComponent = componentReference.instance;
 
-    componentsReferences.push(componentRef);
+    componentsReferences.push(componentReference);
     currentComponent.selfIndex = ++index;
     currentComponent.selfReference = currentComponent;
     currentComponent.parentComponentsReferences = componentsReferences;

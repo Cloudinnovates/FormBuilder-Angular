@@ -13,30 +13,31 @@ export class SubinputComponent implements OnInit {
 
   @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
 
-  componentsReferences = [];
-  conditionTypes = CONDITIONTYPES;
-  inputTypes = INPUTTYPES;
-  inputType = new FormControl('', []);
-  condition = new FormControl('', []);
-  index = 0;
-  question = new FormControl('', []);
-  answer = new FormControl('', []);
+  private componentsReferences: ViewContainerRef[] = [];
+  private conditionTypes: any = CONDITIONTYPES;
+  private inputType: FormControl = new FormControl('', []);
+  private condition: FormControl = new FormControl('', []);
+  private question: FormControl = new FormControl('', []);
+  private answer: FormControl = new FormControl('', []);
+  private index: number = 0;
 
-  selfIndex: number;
-  parentComponentsReferences;
-  parentInputType;
-  selfReference: SubinputComponent;
+  public selfIndex: number;
+  public parentComponentsReferences: any[] = [];
+  private parentInputType: string;
+  public selfReference: SubinputComponent;
+  public inputTypes: any = INPUTTYPES;
 
   constructor(private _componentService: ComponentService, private _validationService: ValidationService) {}
 
   ngOnInit() {
-    console.log(this.parentInputType);
     this.setConditionTypes();
+    this.conditionTypes.add({value: 'aaa'});
+    console.log(this.conditionTypes);
    }
 
 addInput() {
-    this.componentsReferences = this._componentService.addInput(SubinputComponent, this._viewContainerReference, this.componentsReferences, this.index, this.inputType.value);
-    this.index = ++this.index;
+    this.componentsReferences = this._componentService.addInput('SubinputComponent', this._viewContainerReference, this.componentsReferences, this.index, this.inputType.value);
+    ++this.index;
 }
 
 deleteInput() {

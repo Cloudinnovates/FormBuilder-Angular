@@ -9,3 +9,15 @@ export const CONDITIONTYPES = [
     {value: 'Greater than'},
     {value: 'Less than'}
 ];
+
+export const SUBINPUTS = [
+    {index: 0}
+]
+
+export const INPUTS = [];
+
+export const STATE = [
+    {inputs: INPUTS}
+];
+
+
