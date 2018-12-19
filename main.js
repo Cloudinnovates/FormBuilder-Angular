@@ -133,20 +133,18 @@ var AppComponent = /** @class */ (function () {
             for (var i = 0; i < _this.componentsReferences.length; i++) {
                 _this.components.push(_this.componentsReferences[i].instance.setData());
             }
-            _this.openDataBase().then(function (result) {
-                _this.openedDataBase = result;
-            }).finally(function () {
-                _this.addOrUpdateData(_this.openDataBase);
-            });
+            _this.addOrUpdateData(_this.openedDataBase);
         };
         this.openDataBase().then(function (result) {
             _this.openedDataBase = result;
         }).then(function () {
+            console.log(_this.openedDataBase);
             _this.loadData(_this.openedDataBase).then(function (result) {
                 _this.data = result;
             }).finally(function () {
-                console.log(_this.data);
-                if (_this.data.length > 0) {
+                console.log(_this.data.data.components.length);
+                if (_this.data.data.components.length > 0) {
+                    console.log('test');
                     _this.generateComponents();
                 }
             });
