@@ -842,6 +842,7 @@ var ComponentService = /** @class */ (function () {
     }
     ComponentService.prototype.generateComponents = function (componentName, containerReference, componentsReferences, data) {
         var _loop_1 = function (i) {
+            console.log('test');
             var factories = Array.from(this_1._componentFactoryResolver['_factories'].keys());
             var factoryClass = factories.find(function (x) { return x.name === componentName; });
             var factory = this_1._componentFactoryResolver.resolveComponentFactory(factoryClass);
