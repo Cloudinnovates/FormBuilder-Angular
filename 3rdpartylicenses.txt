@@ -272,9 +272,6 @@ MIT
 @angular/platform-browser
 MIT
 
-@angular/forms
-MIT
-
 @angular/cdk
 MIT
 The MIT License
@@ -333,6 +330,9 @@ MIT
 @angular/material/card
 
 @angular/material/form-field
+
+@angular/forms
+MIT
 
 @angular/material/select
 
