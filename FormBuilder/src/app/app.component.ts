@@ -32,11 +32,10 @@ export class AppComponent implements OnInit {
 
     this.loadData().then(result => {
       this.data = result;
-    }).then(() => {
       if (this.data.length > 0) {
         this.generateComponents();
       }
-    });
+    });   
   }
 
   addComponent() {
