@@ -1,50 +1,55 @@
-
-      <mat-card>
-        <mat-card-content>
-            <div class="container">
-                <div class="row">
-      <div class="col-lg-12">
-        <mat-form-field>
-          <mat-select placeholder="Condition" [formControl]="condition" required>
-            <mat-option *ngFor="let condition of conditionTypes" [value]="condition.value" (click)="checkValidation()">{{condition.value}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-lg-12">
-          <mat-form-field *ngIf="this.parentInputType == 'Text' || this.parentInputType == 'Number'">
-              <input matInput placeholder="Answer" (input)="checkValidation()" type="{{this.parentInputType == 'Text' ? 'text' : 'number'}}" [formControl]="answer" required>
-            </mat-form-field>
-
-            <mat-radio-group *ngIf="this.parentInputType == 'Yes/No'" [formControl]="condition" (change)="checkValidation()" required>
-              <mat-radio-button value="Yes">Yes</mat-radio-button>
-              <mat-radio-button value="No">No</mat-radio-button>
-            </mat-radio-group>
-        </div>
+<mat-card>
+  <mat-card-content>
+    <div class="container">
+      <div class="row">
         <div class="col-lg-12">
           <mat-form-field>
-              <input matInput placeholder="Question" (input)="checkValidation()" type="text" [formControl]="question" required>
-            </mat-form-field>
+            <mat-select placeholder="Condition" [formControl]="condition" required>
+              <mat-option *ngFor="let condition of conditionTypes" [value]="condition.value" (click)="checkValidation()">{{condition.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
+
         <div class="col-lg-12">
-            <mat-form-field>
-                <mat-select placeholder="InputType" [formControl]="inputType" required>
-                  <mat-option *ngFor="let types of inputTypes" [value]="types.value" (click)="checkValidation()">{{types.value}}</mat-option>
-                </mat-select>
-              </mat-form-field>
+          <mat-form-field *ngIf="this.parentInputType == 'Text' || this.parentInputType == 'Number'">
+            <input matInput placeholder="Answer" (input)="checkValidation()" type="{{this.parentInputType == 'Text' ? 'text' : 'number'}}"
+              [formControl]="answer" required>
+          </mat-form-field>
+
+          <mat-radio-group *ngIf="this.parentInputType == 'Yes/No'" [formControl]="answer" (change)="checkValidation()"
+            required>
+            <mat-radio-button *ngFor="let answer of boolAnswers" [value]="answer.value">{{answer.value}}</mat-radio-button>
+          </mat-radio-group>
         </div>
-      <div class="col-lg-3"></div>
-      <div class="col-lg-3">
-        <button mat-raised-button color="primary" (click)="addInput()" [disabled]="!checkValidation()">Add Sub Input</button>
-      </div>
-      <div class="col-lg-3">
+
+        <div class="col-lg-12">
+          <mat-form-field>
+            <input matInput placeholder="Question" (input)="checkValidation()" type="text" [formControl]="question"
+              required>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-12">
+          <mat-form-field>
+            <mat-select placeholder="InputType" [formControl]="inputType" required>
+              <mat-option *ngFor="let types of inputTypes" [value]="types.value" (click)="checkValidation()">{{types.value}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-3"></div>
+        <div class="col-lg-3">
+          <button mat-raised-button color="primary" (click)="addComponent()" [disabled]="!checkValidation()">Add Sub
+            Input</button>
+        </div>
+
+        <div class="col-lg-3">
           <div class="col-lg-3"></div>
-        <button mat-raised-button color="primary" (click)="deleteInput()">Delete Input</button>
+          <button mat-raised-button color="primary" (click)="deleteComponent()">Delete Input</button>
+        </div>
+
       </div>
     </div>
-  </div>
-  <ng-template #subViewContainerRef></ng-template>
-    </mat-card-content>
-  </mat-card>
-  <p>{{selfIndex}}</p>
-    
-  
+    <ng-template #subViewContainerRef></ng-template>
+  </mat-card-content>
+</mat-card>

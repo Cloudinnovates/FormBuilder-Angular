@@ -10,14 +10,9 @@ export const CONDITIONTYPES = [
     {value: 'Less than'}
 ];
 
-export const SUBINPUTS = [
-    {index: 0}
-]
-
-export const INPUTS = [];
-
-export const STATE = [
-    {inputs: INPUTS}
+export const BOOLANSWERS = [
+    {value: 'Yes'},
+    {value: 'No'}
 ];
 
 
