@@ -21,7 +21,7 @@ export class DataBaseService {
     });
   }
 
-  loadData(dataBase) {
+  loadData(dataBase: IDBDatabase) {
     return new Promise((resolve, reject) => {
       const transaction = dataBase.transaction('state', 'readonly');
       const request = transaction.objectStore('state').get(1);
@@ -30,7 +30,7 @@ export class DataBaseService {
     });
   }
 
-  addOrUpdateData(dataBase, data) {
+  addOrUpdateData(dataBase: IDBDatabase, data) {
     return new Promise((resolve, reject) => {
       const transaction = dataBase.transaction('state', 'readwrite');
       const request = transaction.objectStore('state').put({ 'id': 1, 'data': data });
