@@ -18,7 +18,7 @@
 
           <mat-radio-group *ngIf="this.parentInputType == 'Yes/No'" [formControl]="answer" (change)="checkValidation()"
             required>
-            <mat-radio-button *ngFor="let answer of boolAnswers" [value]="answer.value">{{answer.value}}</mat-radio-button>
+            <mat-radio-button *ngFor="let answer of boolAnswers" [value]="answer.value" style="padding-right: 15px">{{answer.value}}</mat-radio-button>
           </mat-radio-group>
         </div>
 
