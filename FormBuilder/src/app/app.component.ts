@@ -35,13 +35,10 @@ export class AppComponent implements OnInit {
     this.openDataBase().then(result => {
       this.openedDataBase = result;
     }).then(() => {
-      console.log(this.openedDataBase);
       this.loadData(this.openedDataBase).then(result => {
         this.data = result;
       }).finally(() => {
-        console.log(this.data.data.components.length);
         if(this.data.data.components.length > 0) {
-          console.log('test');
           this.generateComponents();
         }
       });
