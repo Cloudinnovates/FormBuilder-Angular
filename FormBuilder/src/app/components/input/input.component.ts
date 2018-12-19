@@ -13,17 +13,17 @@ export class InputComponent implements OnInit {
 
   @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
   @Output() destroy: EventEmitter<any> = new EventEmitter<any>();
-
-  private inputType: FormControl = new FormControl('', []);
-  private question: FormControl = new FormControl('', []);
-
+  
   private components: any[] = [];
   private componentsReferences: any[] = [];
   private data: any[] = [];
   private parentComponentsReferences: any[] = [];
-
+  
   private parentViewContainerReference: any;
   private selfIndex: number;
+  
+  public inputType: FormControl = new FormControl('', []);
+  public question: FormControl = new FormControl('', []);
 
   public inputTypes: any = INPUTTYPES;
   public selfReference: InputComponent;

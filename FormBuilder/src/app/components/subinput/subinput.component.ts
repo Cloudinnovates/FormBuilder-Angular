@@ -12,23 +12,24 @@ import { ValidationService } from 'src/app/services/validation.service';
 export class SubinputComponent implements OnInit {
 
   @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
-
-  private answer: FormControl = new FormControl('', []);
-  private condition: FormControl = new FormControl('', []);
-  private inputType: FormControl = new FormControl('', []);
-  private question: FormControl = new FormControl('', []);
   
+  private answer: FormControl = new FormControl('', []);
+
   private components: any[] = [];
   private componentsReferences: any[] = [];
   private data: any[] = [];
   private parentComponentsReferences: any[] = [];
-
-  private conditionTypes: any = CONDITIONTYPES;
-  private parentInputType: string = '';
+  
   private parentViewContainerReference: any;
   private selfIndex: number;
-
+  
+  public condition: FormControl = new FormControl('', []);
+  public inputType: FormControl = new FormControl('', []);
+  public question: FormControl = new FormControl('', []);
+  
+  public parentInputType: string = '';
   public boolAnswers: any = BOOLANSWERS;
+  public conditionTypes: any = CONDITIONTYPES;
   public inputTypes: any = INPUTTYPES;
   public selfReference: SubinputComponent;
 
