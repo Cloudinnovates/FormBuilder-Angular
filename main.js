@@ -137,7 +137,6 @@ var AppComponent = /** @class */ (function () {
         };
         this.loadData().then(function (result) {
             _this.data = result;
-        }).then(function () {
             if (_this.data.length > 0) {
                 _this.generateComponents();
             }
