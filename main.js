@@ -497,7 +497,6 @@ var ComponentService = /** @class */ (function () {
     }
     ComponentService.prototype.generateComponents = function (componentName, containerReference, componentsReferences, data) {
         var _loop_1 = function (i) {
-            console.log('test');
             var factories = Array.from(this_1._componentFactoryResolver['_factories'].keys());
             var factoryClass = factories.find(function (x) { return x.name === componentName; });
             var factory = this_1._componentFactoryResolver.resolveComponentFactory(factoryClass);
@@ -600,7 +599,7 @@ var DataBaseService = /** @class */ (function () {
     DataBaseService.prototype.loadData = function (dataBase) {
         return new Promise(function (resolve, reject) {
             var request = dataBase.transaction('state', 'readonly').objectStore('state').get(1);
-            request.onsuccess = function () { return resolve(request.result); };
+            request.oncomplete = function () { return resolve(request.result); };
             request.onerror = function () { return reject(request.error); };
         });
     };
