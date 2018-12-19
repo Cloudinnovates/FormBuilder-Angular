@@ -24,7 +24,7 @@ export class DataBaseService {
   loadData(dataBase) {
     return new Promise((resolve, reject) => {
       const request = dataBase.transaction('state', 'readonly').objectStore('state').get(1);
-      request.onsuccess = () => resolve(request.result);
+      request.oncomplete = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
   }

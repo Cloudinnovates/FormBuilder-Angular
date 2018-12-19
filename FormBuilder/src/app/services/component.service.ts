@@ -9,7 +9,6 @@ export class ComponentService {
 
   generateComponents(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data: any) {
     for (let i = 0; i < data.length; i++) {
-
       const factories = Array.from(this._componentFactoryResolver['_factories'].keys());
       const factoryClass = <Type<any>>factories.find((x: any) => x.name === componentName);
       const factory = this._componentFactoryResolver.resolveComponentFactory(factoryClass);
