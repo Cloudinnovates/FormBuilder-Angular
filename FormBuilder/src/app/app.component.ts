@@ -1,4 +1,5 @@
-import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, OnInit, ComponentFactoryResolver, Type, OnChanges } from '@angular/core';
+import { InputComponent } from './components/input/input.component';
 import { ComponentService } from './services/component.service';
 import { DataBaseService } from './services/data-base.service';
 
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   private components: any[] = [];
   private componentsReferences: any[] = [];
   private data: any = 0;
+  private openedDataBase: any;
 
   public title = 'FormBuilder';
 
@@ -27,15 +29,26 @@ export class AppComponent implements OnInit {
       for (let i = 0; i < this.componentsReferences.length; i++) {
         this.components.push(this.componentsReferences[i].instance.setData());
       }
-      this.saveData();
+
+      this.openDataBase().then(result => {
+        this.openedDataBase = result
+      }).finally(() => {
+        this.addOrUpdateData(this.openDataBase);
+      });
     }
 
-    this.loadData().then(result => {
-      this.data = result;
-      if (this.data.length > 0) {
-        this.generateComponents();
-      }
-    });   
+    this.openDataBase().then(result => {
+      this.openedDataBase = result
+    }).then(() => {
+      this.loadData(this.openedDataBase).then(result => {
+        this.data = result;
+      }).finally(() => {
+        console.log(this.data);
+        if(this.data.length > 0) {
+          this.generateComponents();
+        }
+      });
+    });
   }
 
   addComponent() {
@@ -46,11 +59,15 @@ export class AppComponent implements OnInit {
     this.componentsReferences = this._componentService.generateComponents('InputComponent', this._viewContainerReference, this.componentsReferences, this.data.data.components);
   }
 
-  async loadData() {
-    return await this._dataBaseService.loadData(await this._dataBaseService.openDataBase());
+  async openDataBase() {
+    return await this._dataBaseService.openDataBase();
   }
 
-  async saveData() {
-    await this._dataBaseService.updateData(await this._dataBaseService.openDataBase(), { components: this.components });
+  async loadData(openedDataBase) {
+    return await this._dataBaseService.loadData(openedDataBase);
+  }
+
+  async addOrUpdateData(openedDataBase) {
+    await this._dataBaseService.addOrUpdateData(openedDataBase, { components: this.components });
   }
 }

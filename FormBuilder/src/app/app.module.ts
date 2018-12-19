@@ -38,6 +38,6 @@ import { DataBaseService } from './services/data-base.service';
   ],
   providers: [ComponentService, ValidationService, DataBaseService],
   bootstrap: [AppComponent],
-  entryComponents: [AppComponent, InputComponent, SubinputComponent, ]
+  entryComponents: [InputComponent, SubinputComponent, ]
 })
 export class AppModule { }

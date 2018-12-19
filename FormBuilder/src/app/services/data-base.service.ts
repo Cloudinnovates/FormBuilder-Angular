@@ -23,23 +23,17 @@ export class DataBaseService {
 
   loadData(dataBase) {
     return new Promise((resolve, reject) => {
-      const request = dataBase.transaction('state', 'readonly').objectStore('state').get(1);
-      request.oncomplete = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  saveData(dataBase, data) {
-    return new Promise((resolve, reject) => {
-      const request = dataBase.transaction('state', 'readwrite').objectStore('state').add({ 'id': 1, 'data': data });
+      const transaction = dataBase.transaction('state', 'readonly');
+      const request = transaction.objectStore('state').get(1);
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
   }
 
-  updateData(dataBase, data) {
+  addOrUpdateData(dataBase, data) {
     return new Promise((resolve, reject) => {
-      const request = dataBase.transaction('state', 'readwrite').objectStore('state').put({ 'id': 1, 'data': data });
+      const transaction = dataBase.transaction('state', 'readwrite');
+      const request = transaction.objectStore('state').put({ 'id': 1, 'data': data });
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
