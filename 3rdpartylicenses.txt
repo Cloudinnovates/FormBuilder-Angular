@@ -325,6 +325,8 @@ THE SOFTWARE.
 @angular/animations
 MIT
 
+@angular/material/button
+
 @angular/material/core
 
 @angular/material/card
@@ -335,8 +337,6 @@ MIT
 MIT
 
 @angular/material/select
-
-@angular/material/button
 
 @angular/material/radio
 
