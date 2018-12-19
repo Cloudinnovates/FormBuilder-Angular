@@ -1,5 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ComponentFactoryResolver, Type, OnChanges } from '@angular/core';
-import { InputComponent } from './components/input/input.component';
+import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 import { ComponentService } from './services/component.service';
 import { DataBaseService } from './services/data-base.service';
 
@@ -34,7 +33,9 @@ export class AppComponent implements OnInit {
     this.loadData().then(result => {
       this.data = result;
     }).finally(() => {
-      this.generateComponents();
+      if (this.data.length > 0) {
+        this.generateComponents();
+      }
     });
   }
 
