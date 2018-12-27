@@ -19,39 +19,41 @@ export class AppComponent implements OnInit {
 
   public title = 'FormBuilder';
 
-  constructor(private _componentService: ComponentService, private _dataBaseService: DataBaseService) { }
+  constructor(private componentService: ComponentService, private _dataBaseService: DataBaseService, private componentFactoryResolver: ComponentFactoryResolver) { }
 
 
   ngOnInit() {
-    this.components.length = 0;
+    this.componentService.childIndex.subscribe(event => this.deleteChildComponent(event));
+    // this.components.length = 0;
 
-    window.onbeforeunload = () => {
-      for (let i = 0; i < this.componentsReferences.length; i++) {
-        this.components.push(this.componentsReferences[i].instance.setData());
-      }
-      this.addOrUpdateData(this.openedDataBase);
-    }
+    // window.onbeforeunload = () => {
+    //   for (let i = 0; i < this.componentsReferences.length; i++) {
+    //     this.components.push(this.componentsReferences[i].instance.setData());
+    //   }
+    //   this.addOrUpdateData(this.openedDataBase);
+    // }
 
-    this.openDataBase().then(result => {
-      this.openedDataBase = result;
-    }).then(() => {
-      this.loadData(this.openedDataBase).then(result => {
-        this.data = result;
-      }).finally(() => {
-        if(this.data.data.components.length > 0) {
-          this.generateComponents();
-        }
-      });
-    });
+    // this.openDataBase().then(result => {
+    //   this.openedDataBase = result;
+    // }).then(() => {
+    //   this.loadData(this.openedDataBase).then(result => {
+    //     this.data = result;
+    //   }).finally(() => {
+    //     if(this.data.data.components.length > 0) {
+    //       this.generateComponents();
+    //     }
+    //   });
+    // });
 
   }
 
   addComponent() {
-    this.componentsReferences = this._componentService.addComponent('InputComponent', this._viewContainerReference, this.componentsReferences);
+    this.componentsReferences = this.componentService.addComponent('InputComponent', this._viewContainerReference, this.componentsReferences);
+    console.log(this.componentsReferences);
   }
 
   generateComponents() {
-    this.componentsReferences = this._componentService.generateComponents('InputComponent', this._viewContainerReference, this.componentsReferences, this.data.data.components);
+    this.componentsReferences = this.componentService.generateComponents('InputComponent', this._viewContainerReference, this.componentsReferences, this.data.data.components);
   }
 
   async openDataBase() {
@@ -64,5 +66,13 @@ export class AppComponent implements OnInit {
 
   async addOrUpdateData(openedDataBase) {
     await this._dataBaseService.addOrUpdateData(openedDataBase, { components: this.components });
+  }
+
+  deleteChildComponent(index: number) {
+    let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
+    if(componentReference) {
+    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
+    this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
+    }
   }
 }

@@ -1,11 +1,23 @@
-import { Injectable, ComponentFactoryResolver, Type, ViewContainerRef } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, Type, ViewContainerRef, EventEmitter, Output } from '@angular/core';
+import { ComponentRef } from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComponentService {
 
+  @Output() parentInputType = new EventEmitter();
+  @Output() childIndex = new EventEmitter();
   constructor(private _componentFactoryResolver: ComponentFactoryResolver) { }
+
+  setParentInputType(index: number) {
+    this.parentInputType.emit(index);
+  }
+
+  deleteComponent(index: number) {
+    console.log(index);
+    this.childIndex.emit(index);
+  }
 
   generateComponents(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data: any) {
     for (let i = 0; i < data.length; i++) {
@@ -47,31 +59,21 @@ export class ComponentService {
     return componentsReferences;
   }
 
-  addComponent(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], inputType?: string): any[] {
-
+  createChildComponentReference(componentName: string, containerReference: ViewContainerRef): any {
     const factories = Array.from(this._componentFactoryResolver['_factories'].keys());
     const factoryClass = <Type<any>>factories.find((x: any) => x.name === componentName);
     const factory = this._componentFactoryResolver.resolveComponentFactory(factoryClass);
-    const componentReference = containerReference.createComponent(factory);
-    const currentComponent = componentReference.instance;
-
-    componentsReferences.push(componentReference);
-    currentComponent.selfIndex = Date.now() + Math.random();
-    currentComponent.selfReference = currentComponent;
-    currentComponent.parentComponentsReferences = componentsReferences;
-    currentComponent.parentInputType = inputType;
-    currentComponent.parentViewContainerReference = containerReference;
-    return componentsReferences;
+    return containerReference.createComponent(factory);
   }
 
-  deleteComponent(index: number, parentViewContainerRefernce: any, parentComponentsReferences: any) {
+  setDataForChildComponent(childComponentReference: ComponentRef<any>, data: any) {
+    childComponentReference.instance.inputData = {selfIndex: Date.now() + Math.random(), parentInputType: data ? data.inputType : null};
+  }
 
-    parentViewContainerRefernce._view.component.componentsReferences = parentViewContainerRefernce._view.component.componentsReferences.filter(x =>
-      x.instance.selfIndex !== index);
-
-    const componentReference = parentComponentsReferences.filter(x =>
-      x.instance.selfIndex === index)[0];
-
-    parentViewContainerRefernce.remove(parentViewContainerRefernce.indexOf(componentReference));
+  addComponent(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data?: any): any[] {
+    const childComponentReference = this.createChildComponentReference(componentName, containerReference);
+    this.setDataForChildComponent(childComponentReference, data);
+    componentsReferences.push(childComponentReference);
+    return componentsReferences;
   }
 }
