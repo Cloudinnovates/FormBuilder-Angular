@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, Input } from '@angular/core';
 import { FormControl, FormArray } from '@angular/forms';
-//import { CONDITIONTYPES, INPUTTYPES, BOOLANSWERS } from '../../consts';
+import { CONDITIONTYPES, INPUTTYPES, BOOLANSWERS } from '../../consts';
 import { ComponentService } from 'src/app/services/component.service';
 import { ValidationService } from 'src/app/services/validation.service';
 
@@ -24,24 +24,24 @@ export class SubinputComponent implements OnInit {
   public inputType: FormControl = new FormControl('', []);
   public question: FormControl = new FormControl('', []);
   
-
+  public inputTypes = Object.values(INPUTTYPES);
+  public conditionTypes = Object.values(CONDITIONTYPES);
+  public boolAnswers = Object.values(BOOLANSWERS);
 
   constructor(private componentService: ComponentService, private _validationService: ValidationService) { }
 
   ngOnInit() {
     this.components.length = 0;
+    this.componentService.parentInputType.subscribe(event => this.checkIndexes(event.type, event.childrensComponentsIndexes));
     //this.setConditionTypes();
-    if (this.data.length > 0) {
-      this.generateComponents();
-    }
+    // if (this.data.length > 0) {
+    //   this.generateComponents();
+    // }
+    this.checkIndexes(this.inputData.parentInputType);
   }
   
   addComponent() {
-    this.componentsReferences = this.componentService.addComponent('SubinputComponent', this._viewContainerReference, this.componentsReferences);
-  }
-
-  deleteComponent() {
-    // this._componentService.deleteComponent(this.selfIndex, this.parentViewContainerReference, this.parentComponentsReferences);
+    this.componentsReferences = this.componentService.addComponent('SubinputComponent', this._viewContainerReference, this.componentsReferences, {parentInputType: this.inputType.value});
   }
 
   generateComponents() {
@@ -58,16 +58,33 @@ export class SubinputComponent implements OnInit {
   //   };
   // }
 
-  // setConditionTypes() {
-  //   if (this.parentInputType === 'Text' || this.parentInputType === 'Yes/No') {
-  //     this.conditionTypes = this.conditionTypes.slice(0, 1);
-  //   }
-  // }
+  checkIndexes(type: string, indexes?: []) {
+    if (indexes) {
+      indexes.forEach(element => {
+        if (element === this.inputData.selfIndex) 
+          this.setConditionTypes(type);
+        
+      });
+    }
+    else {
+      this.setConditionTypes(type);
+    }
+  }
+
+  setConditionTypes(type: string) {
+    this.inputData.parentInputType = type;
+    this.answer.setValue('');
+    if (type === 'Text' || type === 'Yes/No') 
+    this.conditionTypes = this.conditionTypes.slice(0, 1);
+  else
+    this.conditionTypes = Object.values(CONDITIONTYPES);
+  }
 
   checkValidation() {
-    // return this._validationService.checkValidation(new FormArray(
-    //   new Array<FormControl>(this.question, this.inputType, this.answer, this.condition)
-    // ));
+    this.inputType.valueChanges.subscribe(event => this.componentService.setParentInputType(event, this.componentsReferences));
+    return this._validationService.checkValidation(new FormArray(
+      new Array<FormControl>(this.question, this.inputType, this.answer, this.condition)
+    ));
   }
 
   deleteSelf() {

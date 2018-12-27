@@ -5,20 +5,20 @@
         <div class="col-lg-12">
           <mat-form-field>
             <mat-select placeholder="Condition" [formControl]="condition" required>
-              <mat-option *ngFor="let condition of conditionTypes" [value]="condition.value" (click)="checkValidation()">{{condition.value}}</mat-option>
+              <mat-option *ngFor="let condition of conditionTypes" [value]="condition" (click)="checkValidation()">{{condition}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
         <div class="col-lg-12">
-          <mat-form-field *ngIf="this.parentInputType == 'Text' || this.parentInputType == 'Number'">
-            <input matInput placeholder="Answer" (input)="checkValidation()" type="{{this.parentInputType == 'Text' ? 'text' : 'number'}}"
+          <mat-form-field *ngIf="this.inputData.parentInputType == 'Text' || this.inputData.parentInputType == 'Number'">
+            <input matInput placeholder="Answer" (input)="checkValidation()" type="{{this.inputData.parentInputType == 'Text' ? 'text' : 'number'}}"
               [formControl]="answer" required>
           </mat-form-field>
 
-          <mat-radio-group *ngIf="this.parentInputType == 'Yes/No'" [formControl]="answer" (change)="checkValidation()"
+          <mat-radio-group *ngIf="this.inputData.parentInputType == 'Yes/No'" [formControl]="answer" (change)="checkValidation()"
             required>
-            <mat-radio-button *ngFor="let answer of boolAnswers" [value]="answer.value" style="padding-right: 15px">{{answer.value}}</mat-radio-button>
+            <mat-radio-button *ngFor="let answer of boolAnswers" [value]="answer" style="padding-right: 15px">{{answer}}</mat-radio-button>
           </mat-radio-group>
         </div>
 
@@ -32,14 +32,14 @@
         <div class="col-lg-12">
           <mat-form-field>
             <mat-select placeholder="InputType" [formControl]="inputType" required>
-              <mat-option *ngFor="let types of inputTypes" [value]="types.value" (click)="checkValidation()">{{types.value}}</mat-option>
+              <mat-option *ngFor="let types of inputTypes" [value]="types" (click)="checkValidation()">{{types}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
         <div class="col-lg-3"></div>
         <div class="col-lg-3">
-          <button mat-raised-button color="primary" (click)="addComponent()" >Add Sub
+          <button mat-raised-button color="primary" (click)="addComponent()" [disabled]="!checkValidation()">Add Sub
             Input</button>
         </div>
 

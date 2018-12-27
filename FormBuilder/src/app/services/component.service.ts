@@ -10,12 +10,15 @@ export class ComponentService {
   @Output() childIndex = new EventEmitter();
   constructor(private _componentFactoryResolver: ComponentFactoryResolver) { }
 
-  setParentInputType(index: number) {
-    this.parentInputType.emit(index);
+  setParentInputType(type: string, childrensComponents: any[]) {
+    let childrensComponentsIndexes = [];
+    childrensComponents.forEach(element => {
+      childrensComponentsIndexes.push(element.instance.inputData.selfIndex);
+    });
+    this.parentInputType.emit({type, childrensComponentsIndexes});
   }
 
   deleteComponent(index: number) {
-    console.log(index);
     this.childIndex.emit(index);
   }
 
@@ -67,7 +70,8 @@ export class ComponentService {
   }
 
   setDataForChildComponent(childComponentReference: ComponentRef<any>, data: any) {
-    childComponentReference.instance.inputData = {selfIndex: Date.now() + Math.random(), parentInputType: data ? data.inputType : null};
+    console.log(data);
+    childComponentReference.instance.inputData = {selfIndex: Date.now() + Math.random(), parentInputType: data ? data.parentInputType : null};
   }
 
   addComponent(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data?: any): any[] {
