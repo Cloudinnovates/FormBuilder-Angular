@@ -1,0 +1,29 @@
+@media only screen  and (min-device-width : 1224px) {
+    .mat-raised-button {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-device-width : 480px) {
+    .mat-raised-button {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width : 481px) and (max-device-width : 991px) {
+    mat-card {
+        margin: auto;
+        width: 100%;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        border-radius: 20px;
+    } 
+
+    .mat-raised-button {
+        width: 50%;
+    }
+
+    .mat-form-field {
+        width: 50%;
+    }
+}
