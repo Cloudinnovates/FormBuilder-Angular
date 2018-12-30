@@ -1,9 +1,3 @@
-@media only screen  and (min-device-width : 1224px) {
-    .mat-raised-button {
-        width: 70%;
-    }
-}
-
 @media only screen and (max-device-width : 480px) {
     .mat-raised-button {
         width: 100%;

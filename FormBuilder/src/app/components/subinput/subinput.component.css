@@ -1,14 +1,10 @@
 @media only screen  and (min-device-width : 1224px) {
     mat-card {
         margin: auto;
-        width: 70%;
+        width: 100%;
         margin-bottom: 20px;
         margin-top: 20px;
         border-radius: 20px;
-    }
-
-    .mat-raised-button {
-        width: 70%;
     }
 }
 

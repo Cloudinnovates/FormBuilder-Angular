@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
 
   addComponent() {
     this.componentsReferences = this.componentService.addComponent('InputComponent', this._viewContainerReference, this.componentsReferences);
-    console.log(this.componentsReferences);
   }
 
   generateComponents() {

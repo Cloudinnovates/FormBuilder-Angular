@@ -19,7 +19,6 @@ export class ComponentService {
   }
 
   deleteComponent(index: number) {
-    console.log(index);
     this.childIndex.emit(index);
   }
 
