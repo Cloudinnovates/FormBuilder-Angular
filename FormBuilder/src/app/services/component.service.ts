@@ -19,46 +19,16 @@ export class ComponentService {
   }
 
   deleteComponent(index: number) {
+    console.log(index);
     this.childIndex.emit(index);
   }
 
   generateComponents(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data: any) {
     for (let i = 0; i < data.length; i++) {
-      const factories = Array.from(this._componentFactoryResolver['_factories'].keys());
-      const factoryClass = <Type<any>>factories.find((x: any) => x.name === componentName);
-      const factory = this._componentFactoryResolver.resolveComponentFactory(factoryClass);
-      const componentReference = containerReference.createComponent(factory);
-      const currentComponent = componentReference.instance;
-
-      let index = data[i].index;
-      componentsReferences.push(componentReference);
-      currentComponent.selfIndex = index;
-
-      let filteredData = data.filter(() => currentComponent.selfIndex === index);
-
-      currentComponent.question.value = filteredData[i].question;
-      currentComponent.inputType.value = filteredData[i].inputType;
-
-      if (filteredData[i].parentInputType) {
-        currentComponent.parentInputType = filteredData[i].parentInputType;
-      }
-
-      if (filteredData[i].condition) {
-        currentComponent.condition.value = filteredData[i].condition;
-      }
-
-      if (filteredData[i].answer) {
-        currentComponent.answer.value = filteredData[i].answer;
-      }
-
-      if (filteredData[i].components) {
-        currentComponent.data = filteredData[i].components;
-      }
-
-      currentComponent.selfReference = currentComponent;
-      currentComponent.parentComponentsReferences = componentsReferences;
-      currentComponent.parentViewContainerReference = containerReference;
-    }
+      const childComponentReference = this.createChildComponentReference(componentName, containerReference);
+      this.setDataForChildComponent(childComponentReference, data[i]);
+      componentsReferences.push(childComponentReference);
+     }
     return componentsReferences;
   }
 
@@ -70,8 +40,15 @@ export class ComponentService {
   }
 
   setDataForChildComponent(childComponentReference: ComponentRef<any>, data: any) {
-    console.log(data);
-    childComponentReference.instance.inputData = {selfIndex: Date.now() + Math.random(), parentInputType: data ? data.parentInputType : null};
+    childComponentReference.instance.inputData = {
+      selfIndex: data ? data.index ? data.index : Date.now() + Math.random() : Date.now() + Math.random(), 
+      parentInputType: data ? data.parentInputType : null,
+      answer: data ? data.answer : null,
+      question: data ? data.question : null,
+      condition: data ? data.condition : null,
+      inputType: data ? data.inputType : null,
+      components: data ? data.components : null
+    };
   }
 
   addComponent(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data?: any): any[] {

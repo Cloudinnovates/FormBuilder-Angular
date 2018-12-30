@@ -14,9 +14,8 @@ export class InputComponent implements OnInit {
   @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
   @Input() inputData: any;
 
-  private components: any[] = [];
+  private childComponentsToSave: any[] = [];
   private componentsReferences: any[] = [];
-  private data: any[] = [];
   
   public inputType: FormControl = new FormControl('', []);
   public question: FormControl = new FormControl('', []);
@@ -27,8 +26,10 @@ export class InputComponent implements OnInit {
 
   ngOnInit() {
     this.componentService.childIndex.subscribe(event => this.deleteChildComponent(event));
-    this.components.length = 0;
-    if (this.data.length > 0) {
+    this.childComponentsToSave.length = 0;
+    this.question.setValue(this.inputData.question);
+    this.inputType.setValue(this.inputData.inputType);
+    if (this.inputData.components) {
       this.generateComponents();
     }
   }
@@ -50,15 +51,18 @@ export class InputComponent implements OnInit {
   }
 
   generateComponents() {
-    this.componentsReferences = this.componentService.generateComponents('SubinputComponent', this._viewContainerReference, this.componentsReferences, this.data);
+    for (let i = 0; i < this.inputData.components.length; i++) {
+      this.inputData.components[i] = {...this.inputData.components[i], ...{parentInputType: this.inputData.inputType}};
+    };
+    this.componentsReferences = this.componentService.generateComponents('SubinputComponent', this._viewContainerReference, this.componentsReferences, this.inputData.components);
   }
 
-  // setData() {
-  //   for (let i = 0; i < this.componentsReferences.length; i++) {
-  //     this.components.push(this.componentsReferences[i].instance.setData());
-  //   }
-  //   return { index: this.selfIndex, question: this.question.value, inputType: this.inputType.value, components: this.components };
-  // }
+  setData() {
+    for (let i = 0; i < this.componentsReferences.length; i++) {
+      this.childComponentsToSave.push(this.componentsReferences[i].instance.setData());
+    }
+    return { index: this.inputData.selfIndex, question: this.question.value, inputType: this.inputType.value, components: this.childComponentsToSave };
+  }
 
   checkValidation() {
     this.inputType.valueChanges.subscribe(event => this.componentService.setParentInputType(event, this.componentsReferences));

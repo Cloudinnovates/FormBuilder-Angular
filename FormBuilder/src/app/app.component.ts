@@ -24,27 +24,26 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.componentService.childIndex.subscribe(event => this.deleteChildComponent(event));
-    // this.components.length = 0;
+    this.components.length = 0;
 
-    // window.onbeforeunload = () => {
-    //   for (let i = 0; i < this.componentsReferences.length; i++) {
-    //     this.components.push(this.componentsReferences[i].instance.setData());
-    //   }
-    //   this.addOrUpdateData(this.openedDataBase);
-    // }
+    window.onbeforeunload = () => {
+      for (let i = 0; i < this.componentsReferences.length; i++) {
+        this.components.push(this.componentsReferences[i].instance.setData());
+      }
+      this.addOrUpdateData(this.openedDataBase);
+    }
 
-    // this.openDataBase().then(result => {
-    //   this.openedDataBase = result;
-    // }).then(() => {
-    //   this.loadData(this.openedDataBase).then(result => {
-    //     this.data = result;
-    //   }).finally(() => {
-    //     if(this.data.data.components.length > 0) {
-    //       this.generateComponents();
-    //     }
-    //   });
-    // });
-
+    this.openDataBase().then(result => {
+      this.openedDataBase = result;
+    }).then(() => {
+      this.loadData(this.openedDataBase).then(result => {
+        this.data = result;
+      }).finally(() => {
+        if(this.data && this.data.data.components.length > 0) {
+          this.generateComponents();
+        }
+      });
+    });
   }
 
   addComponent() {
