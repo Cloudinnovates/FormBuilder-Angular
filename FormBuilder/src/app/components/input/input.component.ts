@@ -7,7 +7,7 @@ import { ValidationService } from 'src/app/services/validation.service';
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']
+  styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements OnInit {
 

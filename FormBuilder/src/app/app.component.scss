@@ -1,0 +1,92 @@
+$landscapePhones: "(min-device-width: 576px) and (max-device-width: 767px)";
+$tablets: "(min-device-width: 768px) and (max-device-width: 991px)";
+$desktops: "(min-device-width: 992px) and (max-device-width: 1199px)";
+$largeDesktops: "(min-device-width: 1200px)";
+
+@mixin landscapePhones {
+    @media #{$landscapePhones} {
+        @content;
+    }
+}
+
+@mixin tablets {
+    @media #{$tablets} {
+        @content;
+    }
+}
+
+@mixin desktops {
+    @media #{$desktops} {
+        @content;
+    }
+}
+
+@mixin largeDesktops {
+    @media #{$largeDesktops} {
+        @content;
+    }
+}
+
+mat-card {
+    margin: auto;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+} 
+
+.mat-fab {
+    margin: auto;
+
+    @include tablets {
+        display: none;
+    }
+
+    @include desktops {
+        display: none;
+    }
+
+    @include largeDesktops {
+        display: none;
+    }
+}
+
+.mat-raised-button {
+    display: none;
+
+    @include tablets {
+        display: inline-block;
+    }
+
+    @include desktops {
+        display: inline-block;
+    }
+
+    @include largeDesktops {
+        display: inline-block;
+    }
+}
+
+// @media only screen and (max-device-width : 480px) {
+//     .mat-raised-button {
+//         width: 100%;
+//     }
+// }
+
+// @media only screen and (min-device-width : 481px) and (max-device-width : 991px) {
+//     mat-card {
+//         margin: auto;
+//         width: 100%;
+//         margin-bottom: 20px;
+//         margin-top: 20px;
+//         border-radius: 20px;
+//     } 
+
+//     .mat-raised-button {
+//         width: 50%;
+//     }
+
+//     .mat-form-field {
+//         width: 50%;
+//     }
+// }

@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatIconModule} from '@angular/material/icon';
 
 import { ComponentService } from './services/component.service';
 import { ValidationService } from './services/validation.service';
@@ -34,7 +35,8 @@ import { DataBaseService } from './services/data-base.service';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatRadioModule
+    MatRadioModule,
+    MatIconModule
   ],
   providers: [ComponentService, ValidationService, DataBaseService],
   bootstrap: [AppComponent],

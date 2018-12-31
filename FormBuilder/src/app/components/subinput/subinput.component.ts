@@ -8,7 +8,7 @@ import { unwrapResolvedMetadata } from '@angular/compiler';
 @Component({
   selector: 'app-subinput',
   templateUrl: './subinput.component.html',
-  styleUrls: ['./subinput.component.css']
+  styleUrls: ['./subinput.component.scss']
 })
 export class SubinputComponent implements OnInit {
 
