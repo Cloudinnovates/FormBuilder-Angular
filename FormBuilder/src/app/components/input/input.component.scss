@@ -33,6 +33,9 @@ mat-card {
     margin-bottom: 20px;
     margin-top: 20px;
     border-radius: 20px;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #bfbfbf;
 
     @include largeDesktops {
         width: 90%;
@@ -86,51 +89,3 @@ mat-card {
         width: 50%;
     }
 }
-
-// @media only screen  and (min-device-width : 1224px) {
-//     mat-card {
-//         margin: auto;
-//         width: 90%;
-//         margin-bottom: 20px;
-//         margin-top: 20px;
-//         border-radius: 20px;
-//     }
-
-
-// }
-
-// @media only screen and (max-device-width : 480px) {
-//     mat-card {
-//         margin: auto;
-//         width: 100%;
-//         margin-bottom: 20px;
-//         margin-top: 20px;
-//         border-radius: 20px;
-//     } 
-
-//     .mat-raised-button {
-//         width: 100%;
-//     }
-
-//     .mat-form-field {
-//         width: 100%;
-//     }
-// }
-
-// @media only screen and (min-device-width : 481px) and (max-device-width : 991px) {
-//     mat-card {
-//         margin: auto;
-//         width: 100%;
-//         margin-bottom: 20px;
-//         margin-top: 20px;
-//         border-radius: 20px;
-//     } 
-
-//     .mat-raised-button {
-//         width: 50%;
-//     }
-
-//     .mat-form-field {
-//         width: 50%;
-//     }
-// }
