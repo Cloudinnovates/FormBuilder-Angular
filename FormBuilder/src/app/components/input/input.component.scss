@@ -33,6 +33,10 @@ mat-card {
     margin-bottom: 20px;
     margin-top: 20px;
     border-radius: 20px;
+
+    @include largeDesktops {
+        width: 90%;
+    }
 } 
 
 .mat-fab {
@@ -64,6 +68,22 @@ mat-card {
 
     @include largeDesktops {
         display: inline-block;
+    }
+}
+
+.mat-form-field {
+    width: 100%;
+
+    @include tablets {
+        width: 50%;
+    }
+
+    @include desktops {
+        width: 50%;
+    }
+
+    @include largeDesktops {
+        width: 50%;
     }
 }
 
