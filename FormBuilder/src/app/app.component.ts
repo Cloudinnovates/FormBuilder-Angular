@@ -1,5 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, OnInit, ComponentFactoryResolver, Type, OnChanges } from '@angular/core';
-import { InputComponent } from './components/input/input.component';
+import { Component, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 import { ComponentService } from './services/component.service';
 import { DataBaseService } from './services/data-base.service';
 
@@ -10,7 +9,7 @@ import { DataBaseService } from './services/data-base.service';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('viewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
+  @ViewChild('viewContainerRef', { read: ViewContainerRef }) viewContainerReference: ViewContainerRef;
 
   private components: any[] = [];
   private componentsReferences: any[] = [];
@@ -19,7 +18,7 @@ export class AppComponent implements OnInit {
 
   public title = 'FormBuilder';
 
-  constructor(private componentService: ComponentService, private _dataBaseService: DataBaseService, private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentService: ComponentService, private dataBaseService: DataBaseService) { }
 
 
   ngOnInit() {
@@ -47,30 +46,30 @@ export class AppComponent implements OnInit {
   }
 
   addComponent() {
-    this.componentsReferences = this.componentService.addComponent('InputComponent', this._viewContainerReference, this.componentsReferences);
+    this.componentsReferences = this.componentService.addComponent('InputComponent', this.viewContainerReference, this.componentsReferences);
   }
 
   deleteChildComponent(index: number) {
     let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
     if(componentReference) {
-    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
+    this.viewContainerReference.remove(this.viewContainerReference.indexOf(componentReference));
     this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
     }
   }
   
   generateComponents() {
-    this.componentsReferences = this.componentService.generateComponents('InputComponent', this._viewContainerReference, this.componentsReferences, this.data.data.components);
+    this.componentsReferences = this.componentService.generateComponents('InputComponent', this.viewContainerReference, this.componentsReferences, this.data.data.components);
   }
 
   async openDataBase() {
-    return await this._dataBaseService.openDataBase();
+    return await this.dataBaseService.openDataBase();
   }
 
   async loadData(openedDataBase) {
-    return await this._dataBaseService.loadData(openedDataBase);
+    return await this.dataBaseService.loadData(openedDataBase);
   }
 
   async addOrUpdateData(openedDataBase) {
-    await this._dataBaseService.addOrUpdateData(openedDataBase, { components: this.components });
+    await this.dataBaseService.addOrUpdateData(openedDataBase, { components: this.components });
   }
 }

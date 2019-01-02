@@ -3,7 +3,6 @@ import { FormControl, FormArray } from '@angular/forms';
 import { CONDITIONTYPES, INPUTTYPES, BOOLANSWERS } from '../../consts';
 import { ComponentService } from 'src/app/services/component.service';
 import { ValidationService } from 'src/app/services/validation.service';
-import { unwrapResolvedMetadata } from '@angular/compiler';
 
 @Component({
   selector: 'app-subinput',
@@ -12,7 +11,7 @@ import { unwrapResolvedMetadata } from '@angular/compiler';
 })
 export class SubinputComponent implements OnInit {
 
-  @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
+  @ViewChild('subViewContainerRef', { read: ViewContainerRef }) viewContainerReference: ViewContainerRef;
   @Input() inputData: any;
 
   public answer: FormControl = new FormControl('', []);
@@ -27,7 +26,7 @@ export class SubinputComponent implements OnInit {
   private childComponentsToSave: any[] = [];
   private componentsReferences: any[] = [];
 
-  constructor(private componentService: ComponentService, private _validationService: ValidationService) { }
+  constructor(private componentService: ComponentService, private validationService: ValidationService) { }
 
   ngOnInit() {
     this.componentService.parentInputType.subscribe(event => this.checkIndexes(event.type, event.childrensComponentsIndexes));
@@ -44,7 +43,7 @@ export class SubinputComponent implements OnInit {
   }
   
   addComponent() {
-    this.componentsReferences = this.componentService.addComponent('SubinputComponent', this._viewContainerReference, this.componentsReferences, {parentInputType: this.inputType.value});
+    this.componentsReferences = this.componentService.addComponent('SubinputComponent', this.viewContainerReference, this.componentsReferences, {parentInputType: this.inputType.value});
   }
 
   deleteSelf() {
@@ -54,7 +53,7 @@ export class SubinputComponent implements OnInit {
   deleteChildComponent(index: number) {
     let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
     if(componentReference) {
-    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
+    this.viewContainerReference.remove(this.viewContainerReference.indexOf(componentReference));
     this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
     }
   }
@@ -63,7 +62,7 @@ export class SubinputComponent implements OnInit {
     for (let i = 0; i < this.inputData.components.length; i++) {
       this.inputData.components[i] = {...this.inputData.components[i], ...{parentInputType: this.inputData.inputType}};
     };
-    this.componentsReferences = this.componentService.generateComponents('SubinputComponent', this._viewContainerReference, this.componentsReferences, this.inputData.components);
+    this.componentsReferences = this.componentService.generateComponents('SubinputComponent', this.viewContainerReference, this.componentsReferences, this.inputData.components);
   }
   
   setData() {
@@ -99,7 +98,7 @@ export class SubinputComponent implements OnInit {
 
   checkValidation() {
     this.inputType.valueChanges.subscribe(event => this.componentService.setParentInputType(event, this.componentsReferences));
-    return this._validationService.checkValidation(new FormArray(
+    return this.validationService.checkValidation(new FormArray(
       new Array<FormControl>(this.question, this.inputType, this.answer, this.condition)
     ));
   }

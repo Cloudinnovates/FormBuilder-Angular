@@ -8,7 +8,7 @@ export class ComponentService {
 
   @Output() parentInputType = new EventEmitter();
   @Output() childIndex = new EventEmitter();
-  constructor(private _componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   setParentInputType(type: string, childrensComponents: any[]) {
     let childrensComponentsIndexes = [];
@@ -39,9 +39,9 @@ export class ComponentService {
   }
 
   createChildComponentReference(componentName: string, containerReference: ViewContainerRef): any {
-    const factories = Array.from(this._componentFactoryResolver['_factories'].keys());
+    const factories = Array.from(this.componentFactoryResolver['_factories'].keys());
     const factoryClass = <Type<any>>factories.find((x: any) => x.name === componentName);
-    const factory = this._componentFactoryResolver.resolveComponentFactory(factoryClass);
+    const factory = this.componentFactoryResolver.resolveComponentFactory(factoryClass);
     return containerReference.createComponent(factory);
   }
 
