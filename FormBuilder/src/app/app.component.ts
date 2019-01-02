@@ -50,6 +50,14 @@ export class AppComponent implements OnInit {
     this.componentsReferences = this.componentService.addComponent('InputComponent', this._viewContainerReference, this.componentsReferences);
   }
 
+  deleteChildComponent(index: number) {
+    let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
+    if(componentReference) {
+    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
+    this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
+    }
+  }
+  
   generateComponents() {
     this.componentsReferences = this.componentService.generateComponents('InputComponent', this._viewContainerReference, this.componentsReferences, this.data.data.components);
   }
@@ -64,13 +72,5 @@ export class AppComponent implements OnInit {
 
   async addOrUpdateData(openedDataBase) {
     await this._dataBaseService.addOrUpdateData(openedDataBase, { components: this.components });
-  }
-
-  deleteChildComponent(index: number) {
-    let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
-    if(componentReference) {
-    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
-    this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
-    }
   }
 }

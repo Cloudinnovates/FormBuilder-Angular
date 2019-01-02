@@ -16,17 +16,16 @@ export class SubinputComponent implements OnInit {
   @Input() inputData: any;
 
   public answer: FormControl = new FormControl('', []);
-
-  private childComponentsToSave: any[] = [];
-  private componentsReferences: any[] = [];
-  
   public condition: FormControl = new FormControl('', []);
   public inputType: FormControl = new FormControl('', []);
   public question: FormControl = new FormControl('', []);
-  
-  public inputTypes = Object.values(INPUTTYPES);
-  public conditionTypes = Object.values(CONDITIONTYPES);
+
   public boolAnswers = Object.values(BOOLANSWERS);
+  public conditionTypes = Object.values(CONDITIONTYPES);
+  public inputTypes = Object.values(INPUTTYPES);
+  
+  private childComponentsToSave: any[] = [];
+  private componentsReferences: any[] = [];
 
   constructor(private componentService: ComponentService, private _validationService: ValidationService) { }
 
@@ -41,10 +40,23 @@ export class SubinputComponent implements OnInit {
     if (this.inputData.components) {
       this.generateComponents();
     }
+    this.checkIndexes(this.inputData.parentInputType);
   }
   
   addComponent() {
     this.componentsReferences = this.componentService.addComponent('SubinputComponent', this._viewContainerReference, this.componentsReferences, {parentInputType: this.inputType.value});
+  }
+
+  deleteSelf() {
+    this.componentService.deleteComponent(this.inputData.selfIndex)
+  }
+
+  deleteChildComponent(index: number) {
+    let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
+    if(componentReference) {
+    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
+    this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
+    }
   }
 
   generateComponents() {
@@ -64,6 +76,15 @@ export class SubinputComponent implements OnInit {
     };
   }
 
+  setConditionTypes(type: string) {
+    this.inputData.parentInputType = type;
+    this.answer.setValue('');
+    if (type === 'Text' || type === 'Yes/No') 
+    this.conditionTypes = this.conditionTypes.slice(0, 1);
+  else
+    this.conditionTypes = Object.values(CONDITIONTYPES);
+  }
+
   checkIndexes(type: string, indexes?: []) {
     if (indexes) {
       indexes.forEach(element => {
@@ -76,15 +97,6 @@ export class SubinputComponent implements OnInit {
     }
   }
 
-  setConditionTypes(type: string) {
-    this.inputData.parentInputType = type;
-    this.answer.setValue('');
-    if (type === 'Text' || type === 'Yes/No') 
-    this.conditionTypes = this.conditionTypes.slice(0, 1);
-  else
-    this.conditionTypes = Object.values(CONDITIONTYPES);
-  }
-
   checkValidation() {
     this.inputType.valueChanges.subscribe(event => this.componentService.setParentInputType(event, this.componentsReferences));
     return this._validationService.checkValidation(new FormArray(
@@ -92,15 +104,4 @@ export class SubinputComponent implements OnInit {
     ));
   }
 
-  deleteSelf() {
-    this.componentService.deleteComponent(this.inputData.selfIndex)
-  }
-
-  deleteChildComponent(index: number) {
-    let componentReference = this.componentsReferences.filter(x => x.instance.inputData.selfIndex === index)[0];
-    if(componentReference) {
-    this._viewContainerReference.remove(this._viewContainerReference.indexOf(componentReference));
-    this.componentsReferences = this.componentsReferences.filter(x => x.instance.inputData.selfIndex !== index);
-    }
-  }
 }

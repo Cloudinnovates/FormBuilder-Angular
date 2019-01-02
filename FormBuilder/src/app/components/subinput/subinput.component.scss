@@ -36,10 +36,6 @@ mat-card {
     border-style: solid;
     border-width: 0.5px;
     border-color: #bfbfbf;
-
-    @include largeDesktops {
-        width: 90%;
-    }
 } 
 
 .mat-fab {

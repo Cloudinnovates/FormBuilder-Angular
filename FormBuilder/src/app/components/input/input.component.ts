@@ -14,12 +14,12 @@ export class InputComponent implements OnInit {
   @ViewChild('subViewContainerRef', { read: ViewContainerRef }) _viewContainerReference: ViewContainerRef;
   @Input() inputData: any;
 
+  public inputType: FormControl = new FormControl('', []);
+  public question: FormControl = new FormControl('', []);
+  
   private childComponentsToSave: any[] = [];
   private componentsReferences: any[] = [];
   
-  public inputType: FormControl = new FormControl('', []);
-  public question: FormControl = new FormControl('', []);
-
   public inputTypes = Object.values(INPUTTYPES);
 
   constructor(private componentService: ComponentService, private _validationService: ValidationService) { }

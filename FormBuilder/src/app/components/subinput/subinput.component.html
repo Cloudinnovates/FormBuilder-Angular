@@ -39,7 +39,8 @@
 
         <div class="col-lg-3"></div>
         <div class="col-lg-3">
-          <button mat-raised-button color="primary" (click)="addComponent()" [disabled]="!checkValidation()"><mat-icon>add_circle</mat-icon> Add Sub
+          <button mat-raised-button color="primary" (click)="addComponent()" [disabled]="!checkValidation()">
+            <mat-icon>add_circle</mat-icon> Add Sub
             Input
           </button>
           <button mat-fab color="primary" (click)="addComponent()" [disabled]="!checkValidation()">
@@ -49,7 +50,9 @@
 
         <div class="col-lg-3">
           <div class="col-lg-3"></div>
-          <button mat-raised-button color="warn" (click)="deleteSelf()"><mat-icon>delete_forever</mat-icon> Delete Input</button>
+          <button mat-raised-button color="warn" (click)="deleteSelf()">
+            <mat-icon>delete_forever</mat-icon> Delete Input
+          </button>
           <button mat-fab color="warn" (click)="deleteSelf()">
             <mat-icon>delete_forever</mat-icon>
           </button>

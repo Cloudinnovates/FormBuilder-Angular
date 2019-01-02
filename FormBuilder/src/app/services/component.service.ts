@@ -22,6 +22,13 @@ export class ComponentService {
     this.childIndex.emit(index);
   }
 
+  addComponent(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data?: any): any[] {
+    const childComponentReference = this.createChildComponentReference(componentName, containerReference);
+    this.setDataForChildComponent(childComponentReference, data);
+    componentsReferences.push(childComponentReference);
+    return componentsReferences;
+  }
+  
   generateComponents(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data: any) {
     for (let i = 0; i < data.length; i++) {
       const childComponentReference = this.createChildComponentReference(componentName, containerReference);
@@ -48,12 +55,5 @@ export class ComponentService {
       inputType: data ? data.inputType : null,
       components: data ? data.components : null
     };
-  }
-
-  addComponent(componentName: string, containerReference: ViewContainerRef, componentsReferences: any[], data?: any): any[] {
-    const childComponentReference = this.createChildComponentReference(componentName, containerReference);
-    this.setDataForChildComponent(childComponentReference, data);
-    componentsReferences.push(childComponentReference);
-    return componentsReferences;
   }
 }
