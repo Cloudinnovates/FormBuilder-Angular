@@ -40,6 +40,10 @@ export class SubinputComponent implements OnInit {
       this.generateComponents();
     }
     this.checkIndexes(this.inputData.parentInputType);
+    console.log(this.inputData.answer)
+    console.log(this.answer.value)
+    console.log(this.condition.value)
+    console.log(this.question.value)
   }
   
   addComponent() {
@@ -76,8 +80,10 @@ export class SubinputComponent implements OnInit {
   }
 
   setConditionTypes(type: string) {
+    
+    if (this.inputData.parentInputType !== type)
+     this.answer.setValue('');
     this.inputData.parentInputType = type;
-    this.answer.setValue('');
     if (type === 'Text' || type === 'Yes/No') 
     this.conditionTypes = this.conditionTypes.slice(0, 1);
   else
